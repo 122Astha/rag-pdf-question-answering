@@ -6,7 +6,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from transformers import pipeline
 
 
-# 1️⃣ Load and split PDF
+# Load and split PDF
 def load_and_split_pdf(file_path):
     loader = PyPDFLoader(file_path)
     documents = loader.load()
@@ -20,7 +20,7 @@ def load_and_split_pdf(file_path):
     return chunks
 
 
-# 2️⃣ Create local embeddings
+# Create local embeddings
 def create_vector_store(chunks):
     embeddings = HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
@@ -30,7 +30,7 @@ def create_vector_store(chunks):
     return vector_store
 
 
-# 3️⃣ Ask question using local model
+# Ask question using local model
 def ask_question(vector_store, question):
     retriever = vector_store.as_retriever(search_kwargs={"k": 3})
     relevant_docs = retriever.invoke(question)
